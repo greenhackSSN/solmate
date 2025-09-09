@@ -9,7 +9,6 @@ from .serializers import TherapyPlanSerializer, SessionFeedbackSerializer
 from .ai_match import match_patient_to_therapist
 from rest_framework.decorators import permission_classes
 
-
 # -------------------------------
 # Therapy Plan API
 # -------------------------------
@@ -46,20 +45,16 @@ class SessionFeedbackViewSet(viewsets.ModelViewSet):
         serializer.save()
 
 # -------------------------------
-# AI Match API
+# AI Plan Suggestion API
 # -------------------------------
 @api_view(['GET'])
-def ai_match(request, patient_id):
-    try:
-        patient = CustomUser.objects.get(id=patient_id, role='patient')
-        therapists = CustomUser.objects.filter(role='therapist')
-        matched = match_patient_to_therapist(patient, therapists)
-        return Response({
-            'therapist_id': matched.id,
-            'therapist_name': matched.username
-        })
-    except CustomUser.DoesNotExist:
-        return Response({'error': 'Patient not found'}, status=404)
+@permission_classes([IsAuthenticated])
+def get_ai_suggested_plan(patient):
+    # Temporary placeholder until Vedha's API is ready
+    return {
+        "patient_id": patient.id,
+        "suggested_plan": "Example plan (replace with AI output)"
+    }
 
 # -------------------------------
 # Assign Patient API
@@ -89,6 +84,9 @@ def assign_patient(request):
 
     return Response({'message': 'Patient assigned to therapist.', 'plan_id': plan.id})
 
+#--------------------------------
+# Reports API
+#--------------------------------
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def reports_view(request):

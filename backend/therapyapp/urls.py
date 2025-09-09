@@ -8,7 +8,7 @@ router.register(r'feedbacks', SessionFeedbackViewSet, basename='sessionfeedback'
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('ai_match/<int:patient_id>/', ai_match, name='ai-match'),
     path('assign_patient/', assign_patient, name='assign-patient'),
     path('reports/', reports_view, name='reports'),
+    path('ai_plan_suggestion/<int:patient_id>/', ai_plan_suggestion, name='ai-plan-suggestion'),
 ]
